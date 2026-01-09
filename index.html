@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffdde1, #ee9ca7);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            width: 380px;
+            text-align: center;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color:#c62828;
+            margin-bottom: 10px;
+        }
+        .doodle {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        input:focus {
+            border-color: #e53935;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #c62828;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        .footer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="doodle">❤️🩺</div>
+    <h2>Heart Disease Prediction</h2>
+    <input id="age" placeholder="Age">
+    <input id="sex" placeholder="Sex (1 = Male, 0 = Female)">
+    <input id="cp" placeholder="Chest Pain Type">
+    <input id="trestbps" placeholder="Resting Blood Pressure">
+    <input id="chol" placeholder="Cholesterol">
+    <input id="fbs" placeholder="Fasting Blood Sugar">
+    <input id="restecg" placeholder="Rest ECG">
+    <input id="thalach" placeholder="Max Heart Rate">
+    <input id="exang" placeholder="Exercise Angina">
+    <input id="oldpeak" placeholder="Oldpeak">
+    <input id="slope" placeholder="ST Slope">
+    <button onclick="predict()">❤️ Predict ❤️</button>
+    <div id="result"></div>
+    <div class="footer">ML based Heart Health Check</div>
+</div>
+<script>
+    function predict() {
+        const features = [
+           Number(document.getElementById("age").value),
+            Number(document.getElementById("sex").value),
+            Number(document.getElementById("cp").value),
+            Number(document.getElementById("trestbps").value),
+            Number(document.getElementById("chol").value),
+            Number(document.getElementById("fbs").value),
+            Number(document.getElementById("restecg").value),
+            Number(document.getElementById("thalach").value),
+            Number(document.getElementById("exang").value),
+            Number(document.getElementById("oldpeak").value),
+            Number(document.getElementById("slope").value)
+        ];
+        fetch("http://127.0.0.1:5000/predict", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({features: features})
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("result").innerText = data.prediction;
+        });
+    }
+</script>
+</body>
+</html>
